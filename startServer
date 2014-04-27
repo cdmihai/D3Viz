@@ -1,0 +1,15 @@
+#!/bin/sh
+
+serverPath=`pwd`
+
+echo "Starting server at:" $serverPath
+
+config="server.document-root = \"${serverPath}\"\n"
+config="${config}server.port = 3000\n"
+
+echo $config > lighttpd.config
+
+lighttpd -t -f lighttpd.conf
+lighttpd -D -f lighttpd.conf
+
+
