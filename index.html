@@ -7,14 +7,13 @@
 	<body>
 		<div id="chart"> </div>
 		<script>
-			var chart = lineChart();
+			var chart = lineChart().width(900).height(600).yLabel("Price ($)");
 
 			d3.tsv("./data.tsv", function(data) {
 				d3.select("#chart")
 					.datum(data)
 					.call(chart);
 			});
-			
 		</script>
 	</body>
 </html>
