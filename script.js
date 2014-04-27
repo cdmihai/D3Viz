@@ -1,6 +1,6 @@
 function lineChart(){
 
-	var margin = {top: 20, right: 20, bottom: 30, left: 50},
+	var margin = {top: 20, right: 20, bottom: 20, left: 40},
 				    width = 960 - margin.left - margin.right,
 				    height = 500 - margin.top - margin.bottom;
 				
@@ -24,6 +24,23 @@ function lineChart(){
 	    .x(function(d) { return x(d.date); })
 	    .y(function(d) { return y(d.close); });
 
+	var styleAxis = function styleAnAxis(element){
+		element.style("fill", "none")
+				.style("stroke", "#000")
+				.style("shape-rendering", "crispEdges")
+				.style("font", "10px sans-serif")
+		
+		return element;
+	}
+
+	var styleLine = function styleALine(element){
+		element.style("fill", "none")
+				.style("stroke", "steelblue")
+				.style("stroke-width", "1.5px");
+
+		return element;
+	}
+
 	var svg = d3.select("body").append("svg")
 	    .attr("width", width + margin.left + margin.right)
 	    .attr("height", height + margin.top + margin.bottom)
@@ -41,12 +58,12 @@ function lineChart(){
 		y.domain(d3.extent(data, function(d) { return d.close; }));
 		
 		svg.append("g")
-		    .attr("class", "x axis")
+			.call(styleAxis)
 		    .attr("transform", "translate(0," + height + ")")
 		    .call(xAxis);
 		
 		svg.append("g")
-		    .attr("class", "y axis")
+		    .call(styleAxis)
 		    .call(yAxis)
 		  .append("text")
 		    .attr("transform", "rotate(-90)")
@@ -57,7 +74,7 @@ function lineChart(){
 		
 		svg.append("path")
 		    .datum(data)
-		    .attr("class", "line")
+		    .call(styleLine)
 		    .attr("d", line);
 		});
 
