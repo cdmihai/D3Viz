@@ -1,4 +1,9 @@
 /*
+Based on: http://bl.ocks.org/mbostock/3883245
+*/
+
+
+/*
 Displays a time line chart: Ox represents time and Oy is linear.
 Configurables: width, height, yLabel, dateFormat
 */
