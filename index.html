@@ -5,8 +5,15 @@
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="script.js"></script>
 	<body>
+		<div id="chart"> </div>
 		<script>
-			lineChart()
+			var chart = lineChart();
+
+			d3.tsv("./data.tsv", function(data) {
+				d3.select("#chart")
+					.datum(data)
+					.call(chart);
+			});
 			
 		</script>
 	</body>
