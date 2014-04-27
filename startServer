@@ -6,10 +6,11 @@ echo "Starting server at:" $serverPath
 
 config="server.document-root = \"${serverPath}\"\n"
 config="${config}server.port = 3000\n"
+config="${config}"'mimetype.assign = (".html" => "text/html", ".txt" => "text/plain",".jpg" => "image/jpeg",".png" => "image/png")'
 
 echo $config > lighttpd.config
 
-lighttpd -t -f lighttpd.conf
-lighttpd -D -f lighttpd.conf
+lighttpd -t -f lighttpd.config
+lighttpd -D -f lighttpd.config
 
 
