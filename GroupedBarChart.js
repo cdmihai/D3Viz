@@ -24,12 +24,16 @@ function groupedBarChart() {
 		//.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
 	var constructColor = function(nrValues){
-		var step = Math.floor(699999 / nrValues)
+
+		var max = parseInt("9F042F", 16);
+		var min = parseInt("102030", 16);
+
+		var step = Math.floor(max / nrValues)
 
 		var colors = []
 		
-		for (var i = 300000; i < 999999; i+=step) {
-			colors.push("#".concat(i.toString()))
+		for (var i = min; i < max; i+=step) {
+			colors.push("#".concat(i.toString(16)))
 		}
 
 		color.range(colors);
