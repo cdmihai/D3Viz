@@ -18,7 +18,7 @@
 			});
 
 
-			var chart2 = groupedBarChart();
+			var chart2 = groupedBarChart().mainGroupingName("State");
 
 			d3.csv("data.csv", function(data) {
 				d3.select("#groupedBarGraph")

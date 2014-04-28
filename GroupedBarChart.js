@@ -9,6 +9,9 @@ function groupedBarChart() {
 		width = 960 - margin.left - margin.right,
 		height = 500 - margin.top - margin.bottom;
 
+	//column name of first grouping
+	var mainGroupingName = ""
+
 	var x0 = d3.scale.ordinal()
 		.rangeRoundBands([0, width], .1);
 
@@ -42,12 +45,12 @@ function groupedBarChart() {
 
 		selection.each(function (data) {
 
-			var ageNames = d3.keys(data[0]).filter(function (key) {
-				return key !== "State";
+			var secondGroupingNames = d3.keys(data[0]).filter(function (key) {
+				return key !== mainGroupingName;
 			});
 
 			data.forEach(function (d) {
-				d.ages = ageNames.map(function (name) {
+				d.secondGrouping = secondGroupingNames.map(function (name) {
 					return {
 						name: name,
 						value: +d[name]
@@ -56,13 +59,13 @@ function groupedBarChart() {
 			});
 
 			x0.domain(data.map(function (d) {
-				return d.State;
+				return d[mainGroupingName];
 			}));
 
-			x1.domain(ageNames).rangeRoundBands([0, x0.rangeBand()]);
+			x1.domain(secondGroupingNames).rangeRoundBands([0, x0.rangeBand()]);
 			
 			y.domain([0, d3.max(data, function (d) {
-				return d3.max(d.ages, function (d) {
+				return d3.max(d.secondGrouping, function (d) {
 					return d.value;
 				});
 			})]);
@@ -89,17 +92,17 @@ function groupedBarChart() {
 				.style("text-anchor", "end")
 				.text("Population");
 
-			var state = svg.selectAll(".state")
+			var mainGrouping = svg.selectAll(".mainGrouping")
 				.data(data)
 				.enter().append("g")
 				.attr("class", "g")
 				.attr("transform", function (d) {
-					return "translate(" + x0(d.State) + ",0)";
+					return "translate(" + x0(d[mainGroupingName]) + ",0)";
 				});
 
-			state.selectAll("rect")
+			mainGrouping.selectAll("rect")
 				.data(function (d) {
-					return d.ages;
+					return d.secondGrouping;
 				})
 				.enter().append("rect")
 				.attr("width", x1.rangeBand())
@@ -117,7 +120,7 @@ function groupedBarChart() {
 				});
 
 			var legend = svg.selectAll(".legend")
-				.data(ageNames.slice().reverse())
+				.data(secondGroupingNames.slice().reverse())
 				.enter().append("g")
 				.attr("class", "legend")
 				.attr("transform", function (d, i) {
@@ -141,6 +144,13 @@ function groupedBarChart() {
 		});
 
 	}
+
+	chart.mainGroupingName = function (value) {
+		if (!arguments.length) return dateFormat;
+		mainGroupingName = value;
+
+		return this;
+	};
 
 	return chart;
 }
