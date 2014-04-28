@@ -21,7 +21,20 @@ function groupedBarChart() {
 		.range([height, 0]);
 
 	var color = d3.scale.ordinal()
-		.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+		//.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+	var constructColor = function(nrValues){
+		var step = Math.floor(699999 / nrValues)
+
+		var colors = []
+		
+		for (var i = 300000; i < 999999; i+=step) {
+			colors.push("#".concat(i.toString()))
+		}
+
+		color.range(colors);
+	}
+
 
 	var xAxis = d3.svg.axis()
 		.scale(x0)
@@ -48,6 +61,9 @@ function groupedBarChart() {
 			var secondGroupingNames = d3.keys(data[0]).filter(function (key) {
 				return key !== mainGroupingName;
 			});
+
+			color.domain(secondGroupingNames);
+			constructColor(secondGroupingNames.length);
 
 			data.forEach(function (d) {
 				d.secondGrouping = secondGroupingNames.map(function (name) {
