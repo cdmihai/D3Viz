@@ -19,6 +19,10 @@ function lineChart() {
 	var yLabel = "";
 	var dateFormat = "%d-%b-%y";
 
+	//column names for the data. They are inferred from the data when it is available
+	var timeColumnName = "",
+		valueColumnName = "";
+
 	var parseDate = d3.time.format(dateFormat).parse;
 
 	//the two scales. Ox is always a time scale
@@ -36,10 +40,10 @@ function lineChart() {
 	//line used to draw the path. Its coordinates are defined by x: time and y: value
 	var line = d3.svg.line()
 		.x(function (d) {
-			return x(d.date);
+			return x(d[timeColumnName]);
 		})
 		.y(function (d) {
-			return y(d.close);
+			return y(d[valueColumnName]);
 		});
 
 	//style the axis. Without this they are drawn very thick
@@ -61,6 +65,12 @@ function lineChart() {
 		return element;
 	}
 
+	//retrieve the time and value column names from the data
+	var retrieveColumnNames = function(data){
+		timeColumnName = Object.keys(data[0])[0]
+		valueColumnName = Object.keys(data[0])[1]
+	}
+
 	var chart = function (selection) {
 
 		x.range([0, width]);
@@ -69,10 +79,12 @@ function lineChart() {
 
 		selection.each(function (data) {
 
+			retrieveColumnNames(data)
+
 			//coerce the data into expected data types
 			data.forEach(function (d) {
-				d.date = parseDate(d.date);
-				d.close = +d.close;
+				d[timeColumnName] = parseDate(d[timeColumnName]);
+				d[valueColumnName] = +d[valueColumnName];
 			});
 
 
@@ -85,10 +97,11 @@ function lineChart() {
 
 			//the axis domains
 			x.domain(d3.extent(data, function (d) {
-				return d.date;
+				return d[timeColumnName];
 			}));
+
 			y.domain(d3.extent(data, function (d) {
-				return d.close;
+				return d[valueColumnName];
 			}));
 
 			//create the X axis
