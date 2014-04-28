@@ -18,7 +18,7 @@
 			});
 
 
-			var chart2 = groupedBarChart().mainGroupingName("State");
+			var chart2 = groupedBarChart().mainGroupingName("State").width(960).height(500).yLabel("Population");
 
 			d3.csv("data.csv", function(data) {
 				d3.select("#groupedBarGraph")
