@@ -2,7 +2,13 @@
 
 serverPath=`pwd`
 
+if [ $# -eq 1 ]
+  then
+    eval serverPath=$1
+fi
+
 echo "Starting server at:" $serverPath
+echo
 
 config="server.document-root = \"${serverPath}\"\n"
 config="${config}server.port = 3000\n"
