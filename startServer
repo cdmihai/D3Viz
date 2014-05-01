@@ -12,7 +12,7 @@ echo
 
 config="server.document-root = \"${serverPath}\"\n"
 config="${config}server.port = 3000\n"
-config="${config}"'mimetype.assign = (".html" => "text/html", ".txt" => "text/plain",".jpg" => "image/jpeg", ".png" => "image/png", ".js" => "application/javascript")'
+config="${config}"'mimetype.assign = (".html" => "text/html", ".css" => "text/css", ".txt" => "text/plain",".jpg" => "image/jpeg", ".png" => "image/png", ".js" => "application/javascript", ".json" => "application/json")'
 
 echo $config > lighttpd.config
 
