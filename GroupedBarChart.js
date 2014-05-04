@@ -31,29 +31,10 @@ function groupedBarChart() {
 	//it "exists" inside x0: its range is as big as one band in X0
 	var x1 = d3.scale.ordinal();
 
-	var y = d3.scale.linear()
+	var y = d3.scale.linear();
 
 	//a color scale for the grouped bars
-	var color = d3.scale.ordinal()
-
-	//generate as many colors as grouped bars
-	var constructColor = function(nrValues){
-
-		//some magic tweaking of colors to ensure non blinding colors
-		var max = parseInt("9F042F", 16);
-		var min = parseInt("102030", 16);
-
-		var step = Math.floor(max / nrValues)
-
-		var colors = []
-		
-		for (var i = min; i < max; i+=step) {
-			colors.push("#".concat(i.toString(16)))
-		}
-
-		color.range(colors);
-	}
-
+	var color = d3.scale.category20();
 	
 	var xAxis = d3.svg.axis()
 		.scale(x0)
@@ -93,9 +74,6 @@ function groupedBarChart() {
 					};
 				});
 			});
-			
-			color.domain(secondGroupingNames); //the secondary, grouped columns need unique colors
-			constructColor(secondGroupingNames.length); //generate as many colors as secondoray grouped columns are
 
 			x0.rangeRoundBands([0, width], .1); 
 
