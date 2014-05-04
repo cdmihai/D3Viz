@@ -29,7 +29,7 @@
 			});
 
 
-			var chart3 = treeMap();
+			var chart3 = treeMap().width(960).height(500);
 
 			d3.json("flare.json", function(error, root){
 				d3.select("#treemap")
