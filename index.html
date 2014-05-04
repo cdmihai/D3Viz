@@ -5,9 +5,11 @@
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="LineChart.js"></script>
 	<script src="GroupedBarChart.js"></script>
+	<script src="TreeMap.js"></script>
 	<body>
 		<div id="linearGraph"> </div>
 		<div id="groupedBarGraph"> </div>
+		<div id="treemap"> </div>
 		<script>
 			var chart = lineChart().width(900).height(600).yLabel("Price ($)");
 
@@ -26,6 +28,14 @@
 					.call(chart2)
 			});
 
+
+			var chart3 = treeMap();
+
+			d3.json("flare.json", function(error, root){
+				d3.select("#treemap")
+					.datum(root)
+					.call(chart3)
+			});
 
 		</script>
 	</body>
