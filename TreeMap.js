@@ -1,8 +1,8 @@
 function treeMap(){
 
-	var margin = {top: 40, right: 10, bottom: 10, left: 10},
-	    width = 960 - margin.left - margin.right,
-	    height = 500 - margin.top - margin.bottom;
+	var margin = {top: 40, right: 10, bottom: 10, left: 10};
+	width = 960 - margin.left - margin.right;
+	height = 500 - margin.top - margin.bottom;
 
 	var color = d3.scale.category20c();
 
@@ -17,11 +17,6 @@ function treeMap(){
 		return node;
 	}
 
-	var treemap = d3.layout.treemap()
-	    .size([width, height])
-	    .sticky(true)
-	    .value(function(d) { return d.size; });
-
 	function position() {
 	  this.style("left", function(d) { return d.x + "px"; })
 	      .style("top", function(d) { return d.y + "px"; })
@@ -31,6 +26,11 @@ function treeMap(){
 
 	function chart(selection){
 		selection.each(function (root) {
+
+		var treemap = d3.layout.treemap()
+	    .size([width, height])
+	    .sticky(true)
+	    .value(function(d) { return d.value; });
 
 		var div = d3.select(this).append("div")
 		    .style("position", "relative")
@@ -48,6 +48,20 @@ function treeMap(){
 		      .text(function(d) { return d.children ? null : d.name; });
 		});
 	}
+
+	chart.width = function (value) {
+		if (!arguments.length) return width;
+		width = value - margin.left - margin.right;
+
+		return this;
+	};
+
+	chart.height = function (value) {
+		if (!arguments.length) return height;
+		height = value - margin.top - margin.bottom;
+
+		return this;
+	};
 
 	return chart;
 }
